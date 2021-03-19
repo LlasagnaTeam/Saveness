@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'Header.dart';
+import 'InputWrapper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+}
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  @override
+  Widget build(BuildContext context) {
+      return Scaffold(
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.topCenter, colors: [
+              Colors.red[500],
+              Colors.red[300],
+              Colors.red[400],
+            ])
+        ),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 80,),
+            Header(),
+            Expanded(child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    topRight: Radius.circular(60),
+                  )
+              ),
+              child: InputWrapper(),
+            ))
+          ],
+        ),
+      ),
+    );
+  }
+}
