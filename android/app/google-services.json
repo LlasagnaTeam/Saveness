@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425451865489",
+    "project_id": "save-ness",
+    "storage_bucket": "save-ness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425451865489:android:1c653233d982733f204630",
+        "android_client_info": {
+          "package_name": "com.EnactusIsamm.saveness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425451865489-ucrm24k2gtscaeji0fu3lvfclm84qdd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCXl-YXnoYUFzzPpqNtiIbyrgB4e3UWgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425451865489-ucrm24k2gtscaeji0fu3lvfclm84qdd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
