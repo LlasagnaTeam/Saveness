@@ -221,7 +221,3 @@ void  getdata(String mail) async {
   });
 
 }
-int Hetlkhra()
-{
-  return msg;
-}
