@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'file:///C:/Users/Mehdi/AndroidStudioProjects/Saveness-Saveness/lib/allscreens/loginscreen.dart';
 import 'file:///C:/Users/Mehdi/AndroidStudioProjects/Saveness-Saveness/lib/allscreens/mainscreen.dart';
@@ -13,70 +15,123 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
+DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+
 
 var x;
 var y;
-void main() async
+ void main() async
 {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
- // FirebaseUser user = (await FirebaseAuth.instance)
- // y =  await getdata2(FirebaseAuth.instance.currentUser.email);
-print(y);
-    runApp(MyApp());
+
+  runApp(MyApp2());
+
+//await print(x);
 }
 //
 
-DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
 
 
-class MyApp extends StatefulWidget
+
+class MyApp2 extends StatefulWidget
 {
-
+  // final int  x;
+  // MyApp(this.x);
   @override
-  _MyAppState createState() => _MyAppState();
+  _MyApp2State createState() => _MyApp2State();
 
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyApp2State extends State<MyApp2> {
 
 
   @override
+  void initState() {
+    super.initState();}
   Widget build(BuildContext context) {
 //print(c);
-    print(FirebaseAuth.instance.currentUser.email);
+   // print(FirebaseAuth.instance.currentUser.email);
+       if ( FirebaseAuth.instance.currentUser == null  )
+         return MaterialApp(
+           title: "hahaha",
 
-setState(() {
-  y = getdata2(FirebaseAuth.instance.currentUser.email);
+           home: LoginScreen(),
 
-});
-  //  print(msg);
-print(y);
-    return StreamBuilder <User> (
+         );
+       else
+        return  MaterialApp(
+      title: "hahaha",
 
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (BuildContext context, snapshot) {
+      home: test(),
 
-      if (snapshot.hasData) {
-
-        if ( y == 1  )
-          return MainScreen();
-        else
-          if (y==0)
-            return Page1();
-
-      }
-        else {
-          return LoginScreen();
-      }
-      }
-
-    ); }
+    );
+  }
 }
 
 
- Future <int> getdata2(String mail)  async {
+class test extends StatefulWidget {
+  @override
+  _testState createState() => _testState();
+}
+var s;
+class _testState extends State<test> {
+  @override
+  Widget build(BuildContext context) {
+    return   MaterialApp(
+      home: FutureBuilder<DocumentSnapshot>(
+          future:  FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser.email)
+              .get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            s = Container(
+
+              child :  SizedBox(
+
+                child: CircularProgressIndicator(),
+                width: 60,
+                height: 60,
+              ),
+
+            );
+            if ((snapshot.hasData) ) {
+              Map<String, dynamic> data = snapshot.data.data();
+              x=  data['Saver'];
+              print(x);
+              if (x == 1 )
+              {
+                s=  MainScreen();
+
+              //      initialRoute:  MainScreen.idScreen
+
+              }
+              else {
+                if (x==0)
+                  s=  Page1();
+              }
+            }
+            return s;
+          }
+
+        // MainScreen FirebaseAuth.instance.currentUser == null ? LoginScreen
+        //     .idScreen : x==1 ? MainScreen.idScreen : Page1.idScreen ,
+
+
+
+        // debugShowCheckedModeBanner: false,
+      ),
+
+    );
+  }
+}
+
+void getdata2(String mail) async   {
 
 
   FirebaseFirestore.instance
@@ -86,32 +141,19 @@ print(y);
       .then((DocumentSnapshot documentSnapshot) {
     if (documentSnapshot.exists) {
       x = documentSnapshot["Saver"];
-      print(x);
-      print(x.runtimeType);
+print(x);
+
     }
   });
-  return x;
+
+//return x;
 }
 
-//   MaterialApp(
-//   title: 'Saveness',
-//   theme: ThemeData(
-//   primarySwatch: Colors.blue,
-//   visualDensity: VisualDensity.adaptivePlatformDensity,
-//   ),
-//
-//   initialRoute: FirebaseAuth.instance.currentUser == null ? LoginScreen
-//       .idScreen : y==1 ? MainScreen.idScreen : Page1.idScreen ,
-//
-//   routes:
-//   {
-//   RegisterationScreen.idScreen: (context) => RegisterationScreen(),
-//   LoginScreen.idScreen: (context) => LoginScreen(),
-//   MainScreen.idScreen: (context) => MainScreen(),
-//   Page1.idScreen: (context) => Page1(),
-//
-//   },
-//
-//   debugShowCheckedModeBanner: false,
-//   );
-// }
+var routes =
+{
+RegisterationScreen.idScreen: (context) => RegisterationScreen(),
+LoginScreen.idScreen: (context) => LoginScreen(),
+MainScreen.idScreen: (context) => MainScreen(),
+Page1.idScreen: (context) => Page1(),
+
+};
