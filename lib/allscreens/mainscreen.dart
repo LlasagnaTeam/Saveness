@@ -156,7 +156,7 @@ class _MainScreenState extends State<MainScreen> {
               getToken();
             }
             ,
-            child : Text("inzel ya kra"),
+            child : Text("test test"),
           )
       ),
     );
